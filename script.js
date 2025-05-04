@@ -17,7 +17,18 @@ const getWeatherCondition = (code)=>{
         75: "Heavy snow fall",
         95: "Thunderstorm",
         96: "Thunderstorm with hail",
-        99: "Thunderstorm with heavy hail"
+        99: "Thunderstorm with heavy hail",
+
+        56: "Light Freezing Drizzle",
+        57: "Heavy Freezing Drizzle",
+        66: "Light Freezing Rain",
+        67: "Heavy Freezing Rain",
+        77: "Snow Grains",
+        80: "Slight Rain Showers",
+        81: "Moderate Rain Showers",
+        82: "Violent Rain Showers",
+        85: "Light Snow Showers",
+        86: "Heavy Snow Showers",
       };
       
       return weatherCodeDescriptions[code];
@@ -74,7 +85,6 @@ const fetchWeather = async(city) => {
         weather_condition:getWeatherCondition(weather_condition[index]),
         date: new Date(dateStr).toDateString()
     }))
-    console.log(daily)
     return {current:current, daily:daily};
 }
 
@@ -82,12 +92,14 @@ const displayWeather = async(city="Bengaluru")=>{
     const weather_data = await fetchWeather(city);
     const current = weather_data.current;
 
+    document.getElementById("cityName").textContent = `${city}`;
     document.getElementById("temp").textContent = `${current.temp} °C`;
     document.getElementById("maxMin").textContent = `Max/Min: ${current.temp_max}/${current.temp_min} °C`;
     document.getElementById("weatherCondition").textContent = current.weather_condition;
     document.getElementById("humidity").textContent = `Humidity: ${current.humidity}%`;
     document.getElementById("date").textContent = current.date;
     document.getElementById("time").textContent = current.time;
+    document.getElementById("weatherIcon").src = `assets/${current.weather_condition}.png`
 }
 
 //default city is Bengaluru

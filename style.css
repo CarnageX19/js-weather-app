@@ -1,0 +1,28 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;/* full viewport height so that align items can use the height to center vertically */
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+}
+.container{
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+#cityName{
+    font-size:1.8em;
+    font-weight:bold;
+    margin-bottom: 0.5em;
+}
+#weatherIcon {
+    width: 80px;
+    height: 80px;
+    object-fit: contain; /* Ensures image scales without distortion */
+    display: block;
+    margin: 0 auto; /* Optional: centers the image */
+}

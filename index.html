@@ -8,21 +8,25 @@
     <title>Weather</title>
 </head>
 <body>
-    <form id="weather-input">
-        <input type="text" name="city" id="city">
-        <button type="submit">
-            <i class="fas fa-search"></i>
-        </button>          
-    </form>
+    <div class="container">
+        <form id="weather-input">
+            <input type="text" name="city" id="city">
+            <button type="submit">
+                <i class="fas fa-search"></i>
+            </button>          
+        </form>
 
-    <div id="Weather">
         <div id="Weather">
-            <p id="temp"></p>
-            <p id="maxMin"></p>
-            <p id="weatherCondition"></p>
-            <p id="humidity"></p>
-            <p id="date"></p>
-            <p id="time"></p>
+            <div id="Weather">
+                <p id="cityName"></p>
+                <img id="weatherIcon" src="">
+                <p id="temp"></p>
+                <p id="weatherCondition"></p>
+                <p id="maxMin"></p>
+                <p id="humidity"></p>
+                <p id="date"></p>
+                <p id="time"></p>
+            </div>
         </div>
     </div>
 </body>
