@@ -1,3 +1,28 @@
+const getWeatherCondition = (code)=>{
+    const weatherCodeDescriptions = {
+        0: "Clear sky",
+        1: "Mainly clear",
+        2: "Partly cloudy",
+        3: "Overcast",
+        45: "Fog",
+        48: "Depositing rime fog",
+        51: "Light drizzle",
+        53: "Moderate drizzle",
+        55: "Dense drizzle",
+        61: "Slight rain",
+        63: "Moderate rain",
+        65: "Heavy rain",
+        71: "Slight snow fall",
+        73: "Moderate snow fall",
+        75: "Heavy snow fall",
+        95: "Thunderstorm",
+        96: "Thunderstorm with hail",
+        99: "Thunderstorm with heavy hail"
+      };
+      
+      return weatherCodeDescriptions[code];
+}
+
 const getLocation = async(city)=>{
     const url = `https://geocoding-api.open-meteo.com/v1/search?name=${city}`;
 
@@ -16,10 +41,11 @@ const getLocation = async(city)=>{
 
 const fetchWeather = async(city) => {
     const [lat, lon] = await getLocation(city);
-    const weather_url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m&daily=temperature_2m_max,temperature_2m_min,relative_humidity_2m_max,relative_humidity_2m_min,relative_humidity_2m_mean&timezone=Asia%2FKolkata`;
+    const weather_url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m&daily=temperature_2m_max,temperature_2m_min,relative_humidity_2m_max,relative_humidity_2m_min,relative_humidity_2m_mean,weathercode&timezone=Asia%2FKolkata`;
 
     const response = await fetch(weather_url);
     const respone_json = await response.json()
+
     const dailyWeather = respone_json["daily"];
     const currentWeather = respone_json["current"]
     const currentDateTime = new Date(currentWeather["time"])
@@ -29,6 +55,7 @@ const fetchWeather = async(city) => {
         temp_max:dailyWeather["temperature_2m_max"][0],
         temp_min:dailyWeather["temperature_2m_min"][0],
         humidity:dailyWeather["relative_humidity_2m_mean"][0],
+        weather_condition:getWeatherCondition(dailyWeather["weathercode"][0]),
         date:currentDateTime.toDateString(),
         time:currentDateTime.toLocaleTimeString()
     }
@@ -38,26 +65,35 @@ const fetchWeather = async(city) => {
     const tempMax = dailyWeather["temperature_2m_max"].slice(1);
     const tempMin = dailyWeather["temperature_2m_min"].slice(1);
     const humidity = dailyWeather["relative_humidity_2m_mean"].slice(1);
+    const weather_condition = dailyWeather["weathercode"].slice(1);
     
     const daily = date.map((dateStr,index)=>({//returns an array of objects
         temp_max:tempMax[index],
         temp_min:tempMin[index],
         humidity:humidity[index],
+        weather_condition:getWeatherCondition(weather_condition[index]),
         date: new Date(dateStr).toDateString()
     }))
-
+    console.log(daily)
     return {current:current, daily:daily};
 }
 
-const updateWeather = async(city="Bengaluru")=>{
+const displayWeather = async(city="Bengaluru")=>{
     const weather_data = await fetchWeather(city);
-    document.getElementById('Weather').innerText=weather_data["current"].temp;
+    const current = weather_data.current;
+
+    document.getElementById("temp").textContent = `${current.temp} °C`;
+    document.getElementById("maxMin").textContent = `Max/Min: ${current.temp_max}/${current.temp_min} °C`;
+    document.getElementById("weatherCondition").textContent = current.weather_condition;
+    document.getElementById("humidity").textContent = `Humidity: ${current.humidity}%`;
+    document.getElementById("date").textContent = current.date;
+    document.getElementById("time").textContent = current.time;
 }
 
 //default city is Bengaluru
 window.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("city").value = "Bengaluru";
-    await updateWeather();
+    await displayWeather();
 });
 
 const form = document.getElementById('weather-input');
@@ -65,5 +101,5 @@ form.addEventListener('submit',async (event)=>{
     event.preventDefault();
 
     const city = document.getElementById("city").value;
-    await updateWeather(city);
+    await displayWeather(city);
 })
