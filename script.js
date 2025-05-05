@@ -18,7 +18,6 @@ const getWeatherCondition = (code)=>{
         95: "Thunderstorm",
         96: "Thunderstorm with hail",
         99: "Thunderstorm with heavy hail",
-
         56: "Light Freezing Drizzle",
         57: "Heavy Freezing Drizzle",
         66: "Light Freezing Rain",
@@ -32,6 +31,10 @@ const getWeatherCondition = (code)=>{
       };
       
       return weatherCodeDescriptions[code];
+}
+
+const fetchCityImage = async(city='Bengaluru')=>{
+    return imageUrl = await fetch(`http://localhost:3000/photos?city=${city}`)
 }
 
 const getLocation = async(city)=>{
@@ -58,8 +61,11 @@ const fetchWeather = async(city) => {
     const respone_json = await response.json()
 
     const dailyWeather = respone_json["daily"];
-    const currentWeather = respone_json["current"]
-    const currentDateTime = new Date(currentWeather["time"])
+    const currentWeather = respone_json["current"];
+    const currentDateTime = new Date(currentWeather["time"]);
+
+    const imageResponse = await fetchCityImage(city);
+    const imageUrl  = await imageResponse.text()
 
     const current = {
         temp:currentWeather["temperature_2m"],
@@ -68,7 +74,8 @@ const fetchWeather = async(city) => {
         humidity:dailyWeather["relative_humidity_2m_mean"][0],
         weather_condition:getWeatherCondition(dailyWeather["weathercode"][0]),
         date:currentDateTime.toDateString(),
-        time:currentDateTime.toLocaleTimeString()
+        time:currentDateTime.toLocaleTimeString(),
+        image:imageUrl
     }
 
     //skip current day details on daily array
@@ -99,12 +106,12 @@ const displayWeather = async(city="Bengaluru")=>{
     document.getElementById("humidity").textContent = `Humidity: ${current.humidity}%`;
     document.getElementById("date").textContent = current.date;
     document.getElementById("time").textContent = current.time;
-    document.getElementById("weatherIcon").src = `assets/${current.weather_condition}.png`
+    document.getElementById("weatherIcon").src = `assets/${current.weather_condition}.png`;
+    document.querySelector(".container").style.backgroundImage = `url(${current.image})`;
 }
 
 //default city is Bengaluru
 window.addEventListener("DOMContentLoaded", async () => {
-    document.getElementById("city").value = "Bengaluru";
     await displayWeather();
 });
 

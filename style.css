@@ -6,14 +6,6 @@ body{
     font-family: Arial, sans-serif;
     background-color: #f0f8ff;
 }
-.container{
-    text-align: center;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
 #cityName{
     font-size:1.8em;
     font-weight:bold;
@@ -25,4 +17,34 @@ body{
     object-fit: contain; /* Ensures image scales without distortion */
     display: block;
     margin: 0 auto; /* Optional: centers the image */
+}
+.container {
+    text-align: center;
+    display: flex;                     /* Space inside the box */
+    border: 1px solid #ccc;             /* Light gray border */
+    border-radius: 12px;                /* Rounded corners */
+    
+    background-size: cover;             /* Cover the entire container */
+    background-position: center;        /* Center the image */
+    background-repeat: no-repeat;       /* Don’t repeat the image */
+    background-color: rgba(255, 255, 255, 0.8); /* Fallback bg if image fails (semi-transparent white) */
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow around the box */
+    backdrop-filter: blur(500px);        /* Slight blur to background if supported */
+}
+
+#Weather-details{
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+}
+#Weather{
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+}
+#weather-input{
+    padding:20px;
+}
+#searchBox{
+    margin-top: 50%;
+    width: 10%;
 }
