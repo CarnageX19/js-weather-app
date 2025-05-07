@@ -33,6 +33,7 @@ const getWeatherCondition = (code)=>{
       return weatherCodeDescriptions[code];
 }
 
+
 const fetchCityImage = async(city='Bengaluru')=>{
     return imageUrl = await fetch(`http://localhost:3000/photos?city=${city}`)
 }
@@ -70,13 +71,16 @@ const fetchWeather = async(city) => {
     const ampm = currentDateTime.toLocaleTimeString().split(" ")[1]
     const bg_url = ampm=='PM'? "assets/night.png" : "assets/day.png";
 
+    const date_array = currentDateTime.toDateString().split(" ").slice(0,3);
+    const currDate = `${date_array[0]}, ${date_array[1]} ${date_array[2]}`;
+
     const current = {
         temp:currentWeather["temperature_2m"],
         temp_max:dailyWeather["temperature_2m_max"][0],
         temp_min:dailyWeather["temperature_2m_min"][0],
         humidity:dailyWeather["relative_humidity_2m_mean"][0],
         weather_condition:getWeatherCondition(dailyWeather["weathercode"][0]),
-        date:currentDateTime.toDateString(),
+        date:currDate,
         time:currentDateTime.toLocaleTimeString(),
         image:imageUrl,
         background:bg_url,
@@ -95,7 +99,7 @@ const fetchWeather = async(city) => {
         temp_min:tempMin[index],
         humidity:humidity[index],
         weather_condition:getWeatherCondition(weather_condition[index]),
-        date: new Date(dateStr).toDateString()
+        week: new Date(dateStr).toLocaleDateString('en-US',{weekday:'long'})
     }))
     return {current:current, daily:daily};
 }
@@ -104,19 +108,32 @@ const displayWeather = async(city="Kolkata")=>{
     const weather_data = await fetchWeather(city);
     const current = weather_data.current;
 
+    const timeIcon = current.ampm == 'PM' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+
     document.getElementById("cityName").textContent = `${city}`;
     document.getElementById("temp").textContent = `${current.temp} °C`;
     document.getElementById("maxMin").innerHTML = `<i class="fas fa-arrow-up"></i> ${current.temp_max} <i class="fas fa-arrow-down"></i> ${current.temp_min} °C`;
     document.getElementById("weatherCondition").textContent = current.weather_condition;
-    document.getElementById("humidity").textContent = `Humidity: ${current.humidity}%`;
-    document.getElementById("date").textContent = current.date;
-    document.getElementById("time").textContent = current.time;
+    document.getElementById("humidity").innerHTML = `<i class="fas fa-droplet"></i> ${current.humidity}% Humidity`;
+    document.getElementById("date").innerHTML = `<i class="fa-solid fa-calendar-days"></i> ${current.date}`;
+    document.getElementById("time").innerHTML = `${timeIcon}  ${current.time}`;
     document.getElementById("weatherIcon").src = `assets/${current.weather_condition}.png`;
     document.querySelector("#Weather").style.backgroundImage = `url(${current.image})`;
     document.querySelector("body").style.backgroundImage = `url(${current.background})`;
 
-    console.log(current.background)
-    console.log(current.ampm)
+    console.log(weather_data.daily)
+    document.getElementById("daily-weather").innerHTML='';
+    weather_data.daily.map((details,index)=>(
+        document.getElementById("daily-weather").innerHTML+=`
+            <div class='daily-weather-details'>
+                <p class='dailyWeek'${index}> ${details.week} </p>
+                <img src='assets/${details.weather_condition}.png' class='daily-weather-icon'>
+                <p class='daily-weather-condition'>${details.weather_condition} </p>
+                <p class='dailyMaxMin'><i class="fas fa-arrow-up"></i> ${details.temp_max} <i class="fas fa-arrow-down"></i> ${details.temp_min} </p>
+                <p class='dailyHumidity'> <i class="fas fa-droplet"></i> ${details.humidity}%</p>
+            </div>
+        `)
+    )
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
