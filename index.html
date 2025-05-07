@@ -10,25 +10,27 @@
 <body>
     <div class="container">
         <div id="Weather">
-            <p id="cityName"></p>
-            <img id="weatherIcon" src="">
-            <p id="temp"></p>
-            <p id="weatherCondition"></p>
+            <div id = "main-weather-elements">
+                <p id="cityName"></p>
+                <img id="weatherIcon" src="">
+                <p id="temp"></p>
+                <p id="maxMin"></p>
+                <p id="weatherCondition"></p>
+                <div id="searchBox">
+                    <form id="weather-input">
+                        <input type="text" name="city" id="city" placeholder="Find Weather for a location">
+                        <button type="submit" id="submitButton">
+                            <i class="fas fa-search"></i>
+                        </button>          
+                    </form>
+                </div>
+            </div>
         </div>
 
         <div id="Weather-details">
-            <p id="maxMin"></p>
             <p id="humidity"></p>
             <p id="date"></p>
             <p id="time"></p>
-            <div id="searchBox">
-                <form id="weather-input">
-                    <input type="text" name="city" id="city">
-                    <button type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>          
-                </form>
-            </div>
         </div>
     </div>
 </body>

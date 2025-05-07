@@ -95,22 +95,21 @@ const fetchWeather = async(city) => {
     return {current:current, daily:daily};
 }
 
-const displayWeather = async(city="Bengaluru")=>{
+const displayWeather = async(city="Kolkata")=>{
     const weather_data = await fetchWeather(city);
     const current = weather_data.current;
 
     document.getElementById("cityName").textContent = `${city}`;
     document.getElementById("temp").textContent = `${current.temp} °C`;
-    document.getElementById("maxMin").textContent = `Max/Min: ${current.temp_max}/${current.temp_min} °C`;
+    document.getElementById("maxMin").innerHTML = `<i class="fas fa-arrow-up"></i> ${current.temp_max} <i class="fas fa-arrow-down"></i> ${current.temp_min} °C`;
     document.getElementById("weatherCondition").textContent = current.weather_condition;
     document.getElementById("humidity").textContent = `Humidity: ${current.humidity}%`;
     document.getElementById("date").textContent = current.date;
     document.getElementById("time").textContent = current.time;
     document.getElementById("weatherIcon").src = `assets/${current.weather_condition}.png`;
-    document.querySelector(".container").style.backgroundImage = `url(${current.image})`;
+    document.querySelector("#Weather").style.backgroundImage = `url(${current.image})`;
 }
 
-//default city is Bengaluru
 window.addEventListener("DOMContentLoaded", async () => {
     await displayWeather();
 });

@@ -1,9 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap');
 body{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;/* full viewport height so that align items can use the height to center vertically */
-    font-family: Arial, sans-serif;
+    font-family: "Oxanium", sans-serif;
     background-color: #f0f8ff;
 }
 #cityName{
@@ -19,32 +20,61 @@ body{
     margin: 0 auto; /* Optional: centers the image */
 }
 .container {
-    text-align: center;
-    display: flex;                     /* Space inside the box */
-    border: 1px solid #ccc;             /* Light gray border */
-    border-radius: 12px;                /* Rounded corners */
-    
-    background-size: cover;             /* Cover the entire container */
-    background-position: center;        /* Center the image */
-    background-repeat: no-repeat;       /* Don’t repeat the image */
-    background-color: rgba(255, 255, 255, 0.8); /* Fallback bg if image fails (semi-transparent white) */
-
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow around the box */
-    backdrop-filter: blur(500px);        /* Slight blur to background if supported */
+    display: flex;                  
+    border: 1px solid #ccc;            
+    border-radius: 12px;                
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    backdrop-filter: blur(500px);   
 }
-
 #Weather-details{
     background-color: rgba(255, 255, 255, 0.8);
-    padding: 20px;
+    width:20em;
+    padding-left: 1em;
 }
 #Weather{
-    background-color: rgba(255, 255, 255, 0.2);
     padding: 20px;
-}
-#weather-input{
-    padding:20px;
+
+    background-size: cover;             
+    background-position: center;        
+    background-repeat: no-repeat; 
 }
 #searchBox{
     margin-top: 50%;
-    width: 10%;
+    width: 100%;
+    position: absolute;
+    bottom: 1em;
+    right:1.2em;
+}
+#searchBox input{
+    height: 2em;
+    border-radius: 5px;
+    margin-left:1.5em;
+    padding-left:0.5em;
+    width: 15em;
+}
+#submitButton{
+    padding-top:0.4em;
+    padding-bottom: 0.4em;
+    padding-left:1.7em;
+    padding-right:1.8em;
+    background-color: rgba(2, 165, 247, 0.811);
+    border:none;
+}
+#main-weather-elements{
+    background-color: rgba(112, 111, 124, 0.5);
+    color: white;
+    border-radius: 6px;
+    text-align: center;
+    position: relative;
+    width:20em;
+    height: 30em;
+    padding-top: 1em;
+}
+#maxMin{
+    font-size: small;
+    margin:0;
+}
+#temp{
+    font-size: larger;
+    font-weight: bolder;
 }
