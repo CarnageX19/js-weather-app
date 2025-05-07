@@ -5,7 +5,8 @@ body{
     align-items: center;
     height: 100vh;/* full viewport height so that align items can use the height to center vertically */
     font-family: "Oxanium", sans-serif;
-    background-color: #f0f8ff;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 #cityName{
     font-size:1.8em;
@@ -24,7 +25,7 @@ body{
     border: 1px solid #ccc;            
     border-radius: 12px;                
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    backdrop-filter: blur(500px);   
+    backdrop-filter: blur(1px);   
 }
 #Weather-details{
     background-color: rgba(255, 255, 255, 0.8);
@@ -33,10 +34,10 @@ body{
 }
 #Weather{
     padding: 20px;
-
     background-size: cover;             
     background-position: center;        
     background-repeat: no-repeat; 
+    border-radius: 12px; 
 }
 #searchBox{
     margin-top: 50%;

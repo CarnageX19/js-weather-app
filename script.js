@@ -55,7 +55,7 @@ const getLocation = async(city)=>{
 
 const fetchWeather = async(city) => {
     const [lat, lon] = await getLocation(city);
-    const weather_url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m&daily=temperature_2m_max,temperature_2m_min,relative_humidity_2m_max,relative_humidity_2m_min,relative_humidity_2m_mean,weathercode&timezone=Asia%2FKolkata`;
+    const weather_url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m&daily=temperature_2m_max,temperature_2m_min,relative_humidity_2m_max,relative_humidity_2m_min,relative_humidity_2m_mean,weathercode&timezone=auto`;
 
     const response = await fetch(weather_url);
     const respone_json = await response.json()
@@ -67,6 +67,9 @@ const fetchWeather = async(city) => {
     const imageResponse = await fetchCityImage(city);
     const imageUrl  = await imageResponse.text()
 
+    const ampm = currentDateTime.toLocaleTimeString().split(" ")[1]
+    const bg_url = ampm=='PM'? "assets/night.png" : "assets/day.png";
+
     const current = {
         temp:currentWeather["temperature_2m"],
         temp_max:dailyWeather["temperature_2m_max"][0],
@@ -75,7 +78,9 @@ const fetchWeather = async(city) => {
         weather_condition:getWeatherCondition(dailyWeather["weathercode"][0]),
         date:currentDateTime.toDateString(),
         time:currentDateTime.toLocaleTimeString(),
-        image:imageUrl
+        image:imageUrl,
+        background:bg_url,
+        ampm:ampm
     }
 
     //skip current day details on daily array
@@ -108,6 +113,10 @@ const displayWeather = async(city="Kolkata")=>{
     document.getElementById("time").textContent = current.time;
     document.getElementById("weatherIcon").src = `assets/${current.weather_condition}.png`;
     document.querySelector("#Weather").style.backgroundImage = `url(${current.image})`;
+    document.querySelector("body").style.backgroundImage = `url(${current.background})`;
+
+    console.log(current.background)
+    console.log(current.ampm)
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
