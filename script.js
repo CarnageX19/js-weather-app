@@ -45,9 +45,11 @@ const getLocation = async(city)=>{
         const response = await fetch(url);
         const response_json = await response.json();
         const latitude = response_json["results"][0]["latitude"];
-        const longitude = response_json["results"][0]["longitude"]
+        const longitude = response_json["results"][0]["longitude"];
+        const state = response_json["results"][0]["admin1"];
+        const country = response_json["results"][0]["country"];
 
-        return [latitude,longitude]
+        return [latitude,longitude,state, country]
 
     } catch (error) {
         console.error(`Error in fetching city location ${error}`)
@@ -55,7 +57,7 @@ const getLocation = async(city)=>{
 }
 
 const fetchWeather = async(city) => {
-    const [lat, lon] = await getLocation(city);
+    const [lat, lon,state, country] = await getLocation(city);
     const weather_url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m&daily=temperature_2m_max,temperature_2m_min,relative_humidity_2m_max,relative_humidity_2m_min,relative_humidity_2m_mean,weathercode&timezone=auto`;
 
     const response = await fetch(weather_url);
@@ -79,6 +81,8 @@ const fetchWeather = async(city) => {
         temp_max:dailyWeather["temperature_2m_max"][0],
         temp_min:dailyWeather["temperature_2m_min"][0],
         humidity:dailyWeather["relative_humidity_2m_mean"][0],
+        state:state,
+        country:country,
         weather_condition:getWeatherCondition(dailyWeather["weathercode"][0]),
         date:currDate,
         time:currentDateTime.toLocaleTimeString(),
@@ -111,6 +115,7 @@ const displayWeather = async(city="Kolkata")=>{
     const timeIcon = current.ampm == 'PM' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
 
     document.getElementById("cityName").textContent = `${city}`;
+    document.getElementById("state-and-country").textContent=`${current.state}, ${current.country}`;
     document.getElementById("temp").textContent = `${current.temp} °C`;
     document.getElementById("maxMin").innerHTML = `<i class="fas fa-arrow-up"></i> ${current.temp_max} <i class="fas fa-arrow-down"></i> ${current.temp_min} °C`;
     document.getElementById("weatherCondition").textContent = current.weather_condition;

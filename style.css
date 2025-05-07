@@ -11,7 +11,7 @@ body{
 #cityName{
     font-size:1.8em;
     font-weight:bold;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.1em;
 }
 #weatherIcon {
     width: 80px;
@@ -90,7 +90,7 @@ body{
 #daily-weather {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    margin-bottom: 0;
+    margin-bottom: 1em;
 }
 .daily-weather-details{
     font-size: 10px;
@@ -137,4 +137,8 @@ body{
     margin:0;
     font-size: smaller;
     margin-top:0.5em;
+}
+#state-and-country{
+    font-size: smaller;
+    margin-top:0;
 }
