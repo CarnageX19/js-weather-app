@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap');
+* {
+    box-sizing: border-box;
+  }
 body{
     display: flex;
     justify-content: center;
@@ -141,4 +144,62 @@ body{
 #state-and-country{
     font-size: smaller;
     margin-top:0;
+}
+#error{
+    margin:0;
+    padding:0;
+    color: rgb(255, 255, 255);
+    font-size:x-small;
+    text-align: center;
+}
+
+@media screen and (max-width: 600px), screen and (orientation: portrait) {
+    body {
+        height: auto;
+        padding: 1em;
+    }
+
+    .container {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #Weather, #Weather-details {
+        width: 100%;
+        border-radius: 12px;
+        margin-bottom: 1em;
+    }
+
+    #main-weather-elements {
+        width: 100%;
+        height: auto;
+        padding-bottom: 2em;
+    }
+
+    #searchBox {
+        position: static;
+        margin-top: 1em;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    #searchBox input {
+        width: 60%;
+        margin-left: 0;
+    }
+
+    #submitButton {
+        padding: 0.4em 1em;
+    }
+
+    #daily-weather-heading {
+        margin-top: 1em;
+        height: auto;
+        margin-bottom: 0;
+    }
+    #error{
+        font-size:small;
+        margin-top:1em;
+    }
 }

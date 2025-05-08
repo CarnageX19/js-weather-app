@@ -42,6 +42,7 @@ const getLocation = async(city)=>{
     const url = `https://geocoding-api.open-meteo.com/v1/search?name=${city}`;
 
     try {
+        document.getElementById("error").textContent="";
         const response = await fetch(url);
         const response_json = await response.json();
         const latitude = response_json["results"][0]["latitude"];
@@ -53,6 +54,7 @@ const getLocation = async(city)=>{
 
     } catch (error) {
         console.error(`Error in fetching city location ${error}`)
+        document.getElementById("error").textContent = `Unable to find a place named ${city}`;
     }
 }
 
