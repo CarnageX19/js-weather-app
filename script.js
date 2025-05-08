@@ -35,7 +35,7 @@ const getWeatherCondition = (code)=>{
 
 
 const fetchCityImage = async(city='Bengaluru')=>{
-    return imageUrl = await fetch(`http://localhost:3000/photos?city=${city}`)
+    return imageUrl = await fetch(`https://city-fetcher.onrender.com/photos?city=${city}`)
 }
 
 const getLocation = async(city)=>{
@@ -128,7 +128,6 @@ const displayWeather = async(city="Kolkata")=>{
     document.querySelector("#Weather").style.backgroundImage = `url(${current.image})`;
     document.querySelector("body").style.backgroundImage = `url(${current.background})`;
 
-    console.log(weather_data.daily)
     document.getElementById("daily-weather").innerHTML='';
     weather_data.daily.map((details,index)=>(
         document.getElementById("daily-weather").innerHTML+=`
