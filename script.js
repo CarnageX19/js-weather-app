@@ -34,9 +34,29 @@ const getWeatherCondition = (code)=>{
 }
 
 
-const fetchCityImage = async(city='Bengaluru')=>{
-    return imageUrl = await fetch(`https://city-fetcher.onrender.com/photos?city=${city}`)
+const fetchCityImage = async(city='Kolkata')=>{
+  const controller = new AbortController();
+  const timeout = setTimeout(() => {
+    controller.abort();
+  }, 300); // timeout in milliseconds
+
+  try 
+    {
+        const response = await fetch(`https://city-fetcher.onrender.com/photos?city=${city}`, {
+            signal: controller.signal,});
+        clearTimeout(timeout);
+        
+        if (!response.ok) throw new Error('Fetch failed');
+        
+        const imageUrl = await response.text(); // assuming JSON response
+        return imageUrl;
+    } 
+    catch (error) {
+    console.warn('Fetch aborted or failed:', error.message);
+    return 'assets/default.jpg'; // or some fallback image URL
+  }
 }
+
 
 const getLocation = async(city)=>{
     const url = `https://geocoding-api.open-meteo.com/v1/search?name=${city}`;
@@ -69,8 +89,7 @@ const fetchWeather = async(city) => {
     const currentWeather = respone_json["current"];
     const currentDateTime = new Date(currentWeather["time"]);
 
-    const imageResponse = await fetchCityImage(city);
-    const imageUrl  = await imageResponse.text()
+    const imageUrl = await fetchCityImage(city);
 
     const ampm = currentDateTime.toLocaleTimeString().split(" ")[1]
     const bg_url = ampm=='PM'? "assets/night.png" : "assets/day.png";
