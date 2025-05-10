@@ -111,6 +111,9 @@ const fetchWeather = async(city) => {
 }
 
 const displayWeather = async(city="Kolkata")=>{
+    //default container image
+    document.querySelector("#Weather").style.backgroundImage = `url(assets/default.jpg)`;
+    
     const weather_data = await fetchWeather(city);
     const current = weather_data.current;
 
