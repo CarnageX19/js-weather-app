@@ -38,7 +38,7 @@ const fetchCityImage = async(city='Kolkata')=>{
   const controller = new AbortController();
   const timeout = setTimeout(() => {
     controller.abort();
-  }, 300); // timeout in milliseconds
+  }, 4000); // timeout in milliseconds
 
   try 
     {
